@@ -10,10 +10,10 @@
 		23A1F623242BE0E3004858C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A1F622242BE0E3004858C3 /* AppDelegate.swift */; };
 		23A1F625242BE0E3004858C3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A1F624242BE0E3004858C3 /* ViewController.swift */; };
 		23A1F628242BE0E3004858C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23A1F626242BE0E3004858C3 /* Main.storyboard */; };
-		23A1F62A242BE0E5004858C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23A1F629242BE0E5004858C3 /* Assets.xcassets */; };
 		23A1F62D242BE0E5004858C3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23A1F62B242BE0E5004858C3 /* LaunchScreen.storyboard */; };
 		23A1F638242BE0E5004858C3 /* InstagramTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A1F637242BE0E5004858C3 /* InstagramTests.swift */; };
 		23A1F643242BE0E5004858C3 /* InstagramUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A1F642242BE0E5004858C3 /* InstagramUITests.swift */; };
+		23A1F653242E6074004858C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23A1F652242E6074004858C3 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +38,6 @@
 		23A1F622242BE0E3004858C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23A1F624242BE0E3004858C3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		23A1F627242BE0E3004858C3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		23A1F629242BE0E5004858C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		23A1F62C242BE0E5004858C3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		23A1F62E242BE0E5004858C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23A1F633242BE0E5004858C3 /* InstagramTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstagramTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,6 +46,7 @@
 		23A1F63E242BE0E5004858C3 /* InstagramUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstagramUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		23A1F642242BE0E5004858C3 /* InstagramUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramUITests.swift; sourceTree = "<group>"; };
 		23A1F644242BE0E5004858C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		23A1F652242E6074004858C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,9 +100,9 @@
 				23A1F622242BE0E3004858C3 /* AppDelegate.swift */,
 				23A1F624242BE0E3004858C3 /* ViewController.swift */,
 				23A1F626242BE0E3004858C3 /* Main.storyboard */,
-				23A1F629242BE0E5004858C3 /* Assets.xcassets */,
 				23A1F62B242BE0E5004858C3 /* LaunchScreen.storyboard */,
 				23A1F62E242BE0E5004858C3 /* Info.plist */,
+				23A1F652242E6074004858C3 /* Assets.xcassets */,
 			);
 			path = Instagram;
 			sourceTree = "<group>";
@@ -230,7 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23A1F62D242BE0E5004858C3 /* LaunchScreen.storyboard in Resources */,
-				23A1F62A242BE0E5004858C3 /* Assets.xcassets in Resources */,
+				23A1F653242E6074004858C3 /* Assets.xcassets in Resources */,
 				23A1F628242BE0E3004858C3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
