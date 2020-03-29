@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class SharePhotoController: UIViewController {
     
@@ -59,7 +60,67 @@ class SharePhotoController: UIViewController {
     }
     
     @objc func handleShare() {
-        print("Share Code")
+        guard let image = selectedImage else { return }
+        
+        guard let uploadData = image.jpegData(compressionQuality: 0.5) else { return }
+        
+        // When you click, disable for multiple clicking
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        
+        let filename = NSUUID().uuidString
+        let storageRef = Storage.storage().reference().child("posts").child(filename)
+        storageRef.putData(uploadData, metadata: nil) { (downloadURL, err) in
+            if let err = err {
+                self.navigationItem.rightBarButtonItem?.isEnabled = false
+                print("Failed to upload post image: ", err)
+                return
+            }
+            
+            // Get storage ref to grab the URL of image you just uploaded
+            storageRef.downloadURL(completion: { (downloadURL, err) in
+                if let err = err {
+                    print("Failed to fetch download URL: ", err)
+                    return
+                }
+                
+                guard let imageUrl = downloadURL?.absoluteString else { return }
+                
+                print("Successfully uploaded post image: ", imageUrl)
+                
+                self.saveToDatabaseWithImageUrl(imageUrl: imageUrl)
+            })
+        }
+    }
+    
+    fileprivate func saveToDatabaseWithImageUrl(imageUrl: String) {
+        // Get image
+        guard let postImage = selectedImage else { return }
+        
+        // Grab user UID
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        // Grab photo caption
+        guard let caption = textView.text else { return }
+        
+        let userPostRef = Database.database().reference().child("posts").child(uid)
+        
+        // Generates new child location using uKey returning Database reference location, good for list of items, aka posts.
+        let ref = userPostRef.childByAutoId()
+        
+        // Gotta cast it because it fits string to many different forms of values
+        let values = ["imageUrl": imageUrl, "caption": caption, "imageWidth": postImage.size.width, "imageHeight": postImage.size.height, "creationDate": Date().timeIntervalSince1970] as [String: Any]
+        
+        ref.updateChildValues(values) { (err, ref) in
+            if let err = err {
+                self.navigationItem.rightBarButtonItem?.isEnabled = false
+                print("Failed to save post to DB: ", err)
+                return
+            }
+            
+            print("Successfully saved post to DB!")
+            // Succesffully saved, dismiss view
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
