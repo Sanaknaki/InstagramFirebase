@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginController: UIViewController {
     
@@ -33,7 +34,7 @@ class LoginController: UIViewController {
         tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
         tf.borderStyle = .roundedRect
         
-        // tf.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
+        tf.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         
         return tf
     }()
@@ -45,15 +46,28 @@ class LoginController: UIViewController {
         tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
         tf.borderStyle = .roundedRect
         
-        // tf.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
+        tf.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         
         return tf
     }()
     
+    // Handle disabling/enabling of login button
+    @objc func handleTextInputChange() {
+        let isSignUpFormValid = emailTextField.text?.count ?? 0 > 0 && passwordTextField.text?.count ?? 0 > 0
+        
+        if isSignUpFormValid {
+            loginButton.backgroundColor = UIColor.rgb(red: 17, green: 154, blue: 237)
+            loginButton.isEnabled = true
+        } else {
+            loginButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
+            loginButton.isEnabled = false
+        }
+    }
+    
     let loginButton: UIButton = {
         let button = UIButton(type: .system)
         
-        button.setTitle("Login In", for: .normal)
+        button.setTitle("Login", for: .normal)
         
         button.backgroundColor = UIColor.rgb(red: 149, green: 204, blue: 244)
         
@@ -61,12 +75,36 @@ class LoginController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.setTitleColor(.white, for: .normal)
         
-        // button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
+         button.addTarget(self, action: #selector(handleLogIn), for: .touchUpInside)
         
         button.isEnabled = false
         
         return button
     }()
+
+    // This will log us in
+    @objc func handleLogIn() {
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        
+        Auth.auth().signIn(withEmail: email, password: password, completion: { (user: AuthDataResult?, err: Error?) in
+            if let err = err {
+                print("Failed to sign in with email/password: ", err)
+                return
+            }
+            
+            print("Successfully logged in with email/password: :", user?.user.uid)
+            
+            // Object that represents entire app, shared gets the app, keyWindow is the window that you see in the app
+            // RootView = MainTabBarController that was set in AppDelegate
+            guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else { return }
+            
+            mainTabBarController.setupViewControllers()
+            
+            // Gets rid of the login view and shows you as logged in
+            self.dismiss(animated: true, completion: nil)
+        })
+    }
     
     let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)

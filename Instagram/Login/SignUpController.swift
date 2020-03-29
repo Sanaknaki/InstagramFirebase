@@ -158,6 +158,15 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
                         }
 
                         print("Successfully saved user info to DB!")
+                        
+                        // Object that represents entire app, shared gets the app, keyWindow is the window that you see in the app
+                        // RootView = MainTabBarController that was set in AppDelegate
+                        guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else { return }
+                        
+                        mainTabBarController.setupViewControllers()
+                        
+                        // Gets rid of the login view and shows you as logged in
+                        self.dismiss(animated: true, completion: nil)
                     })
                 })
             })

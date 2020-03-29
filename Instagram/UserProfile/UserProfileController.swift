@@ -40,6 +40,11 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
             do {
                 try Auth.auth().signOut()
                 
+                // Want to wrap the login view controller in navControl to not push the registration view onto the stack
+                let loginController = LoginController()
+                let navController = UINavigationController(rootViewController: loginController)
+                
+                self.present(navController, animated: true, completion: nil)
             } catch let signOutErr {
                 print("Failed to sign out: ", signOutErr)
             }
