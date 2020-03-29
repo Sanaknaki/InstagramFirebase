@@ -17,7 +17,7 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.backgroundColor = .yellow
+        collectionView.backgroundColor = .white
         
         setupNavigationButtons()
         
@@ -25,7 +25,7 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
         collectionView.register(PhotoSelectorCell.self, forCellWithReuseIdentifier: cellId)
         
         // Register header on screen
-        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
+        collectionView.register(PhotoSelectorHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         
         fetchPhotos()
     }
@@ -42,9 +42,18 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
-        
-        header.backgroundColor = .red
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! PhotoSelectorHeader
+                
+        if let selectedImage = selectedImage {
+            if let index = self.images.index(of: selectedImage) {
+                let selectedAsset = self.assets[index]
+                let imageManager = PHImageManager.default()
+                let targetSize = CGSize(width: 600, height: 600)
+                imageManager.requestImage(for: selectedAsset, targetSize: targetSize, contentMode: .aspectFit, options: nil) { (image, info) in
+                    header.photoImageView.image = image
+                }
+            }
+        }
         
         return header
     }
@@ -87,32 +96,55 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handleNext))
     }
     
-    var images = [UIImage]()
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.selectedImage = images[indexPath.item]
+        self.collectionView.reloadData()
+    }
     
-    fileprivate func fetchPhotos() {
-        
+    var selectedImage: UIImage?
+    var images = [UIImage]()
+    var assets = [PHAsset]()
+    
+    fileprivate func assetsFetchOptions() -> PHFetchOptions {
         let fetchOptions = PHFetchOptions()
         fetchOptions.fetchLimit = 10
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchOptions.sortDescriptors = [sortDescriptor]
-        let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         
-        allPhotos.enumerateObjects { (asset, count, stop) in
-            let imageManager = PHImageManager.default()
-            let targetSize = CGSize(width: 350, height: 350)
-            let options = PHImageRequestOptions()
-            options.isSynchronous = true // Gets better thumbnail image in grid
-            
-            imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
-                if let image = image {
-                    self.images.append(image)
-                }
+        return fetchOptions
+    }
+    
+    fileprivate func fetchPhotos() {
+        
+        let allPhotos = PHAsset.fetchAssets(with: .image, options: assetsFetchOptions())
+        
+        // Grabbing of photos will happen in the background as view loads and then fill data in main thread
+        DispatchQueue.global(qos: .background).async {
+            allPhotos.enumerateObjects { (asset, count, stop) in
+                let imageManager = PHImageManager.default()
+                let targetSize = CGSize(width: 200, height: 200)
+                let options = PHImageRequestOptions()
+                options.isSynchronous = true // Gets better thumbnail image in grid
                 
-                if count == allPhotos.count - 1 {
-                    // Only want to call this when you're done fetching all images
-                    self.collectionView.reloadData()
-                }
-            })
+                imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
+                    if let image = image {
+                        self.images.append(image)
+                        self.assets.append(asset)
+                        
+                        if self.selectedImage == nil {
+                            self.selectedImage = image
+                        }
+                    }
+                    
+                    if count == allPhotos.count - 1 {
+                        // Go back to main thread
+                        DispatchQueue.main.async {
+                            // Only want to call this when you're done fetching all images
+                            self.collectionView.reloadData()
+                        }
+                    }
+                })
+            }
         }
     }
     
