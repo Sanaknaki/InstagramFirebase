@@ -9,11 +9,33 @@
 import UIKit
 import Firebase
 
-class MainTabBarController: UITabBarController {
+class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        
+        let index = viewControllers?.firstIndex(of: viewController)
+        
+        if index == 2 {
+            
+            let layout = UICollectionViewFlowLayout()
+            let photoSelectorController = PhotoSelectorController(collectionViewLayout: layout)
+            
+            // Layout gets fed to the photoSelectorView, which then gets fed to navController, fitting a navbar on top
+            let navController = UINavigationController(rootViewController: photoSelectorController)
+            
+            present(navController, animated: true, completion: nil)
+            
+            return false
+        }
+        
+        return true
+    }
     
     // When overriding, call super so it shows what it's supposed to do
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.delegate = self
         
         // If there's no user, show login screen
         if Auth.auth().currentUser == nil {
