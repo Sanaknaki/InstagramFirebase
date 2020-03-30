@@ -28,7 +28,9 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         setupLogOutButton()
         
-        fetchPosts()
+        // fetchPosts()
+        fetchOrderedPosts()
+        
     }
     
     fileprivate func setupLogOutButton() {
@@ -36,6 +38,23 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     }
     
     var posts = [Post]()
+    
+    fileprivate func fetchOrderedPosts() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let ref = Database.database().reference().child("posts").child(uid)
+        
+        // Order by 'creationDate' while also watching the list of posts
+        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
+            guard let dict = snapshot.value as? [String: Any] else { return }
+            
+            let post = Post(dictionary: dict)
+            self.posts.append(post)
+            
+            self.collectionView.reloadData()
+        }) { (err) in
+            print("Failed to fetch ordered posts: ", err)
+        }
+    }
     
     fileprivate func fetchPosts() {
         

@@ -13,13 +13,14 @@ class UserProfileHeader: UICollectionViewCell {
     
     var user: User? {
         didSet {
-            setupProfileImage()
+            guard let profileImageUrl = user?.profileImageUrl else { return }
+            profileImageView.loadImage(urlString: profileImageUrl)
             usernamelabel.text = user?.username
         }
     }
     
-    let profileImageView: UIImageView = {
-        let iv = UIImageView()
+    let profileImageView: CustomImageView = {
+        let iv = CustomImageView()
         
         iv.layer.cornerRadius = 80 / 2
         
@@ -138,32 +139,6 @@ class UserProfileHeader: UICollectionViewCell {
         
         addSubview(editProfileButton)
         editProfileButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, bottom: nil, right: followingLabel.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 34)
-    }
-    
-    // Grab profile image for this user
-    fileprivate func setupProfileImage() {
-        guard let profileImageUrl = user?.profileImageUrl else { return }
-        guard let url = URL(string: profileImageUrl) else { return }
-        
-        URLSession.shared.dataTask(with: url) { (data, response, err) in
-            // Check for err, then build image using data
-            if let err = err {
-                print("Failed to fetch user profile: ", err)
-                return
-            }
-            
-            // Perhaps check for response that's 200 (HTTP OK)
-            
-            guard let data = data else { return }
-            
-            let image = UIImage(data: data)
-            
-            // Async call to to get back on main thread to update profile pic
-            DispatchQueue.main.async {
-                self.profileImageView.image = image
-            }
-            
-            }.resume()
     }
     
     // StackView to hold all 3 buttons to order posts
