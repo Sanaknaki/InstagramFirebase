@@ -57,7 +57,17 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: view.frame.width, height: 200)
+        // Username & userProfileImageView, it's a 1:1 image aspect ratio for the image
+        var height: CGFloat = 40 + 8 + 8
+        height += view.frame.width
+        
+        // For like/comment/send button group
+        height += 50
+        
+        // For caption 
+        height += 60
+        
+        return CGSize(width: view.frame.width, height: height)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
