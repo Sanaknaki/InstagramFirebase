@@ -8,6 +8,8 @@
 
 import UIKit
 
+var imageCache = [String: UIImage]()
+
 // Used to load image given a URL
 class CustomImageView: UIImageView {
     
@@ -16,6 +18,12 @@ class CustomImageView: UIImageView {
     func loadImage(urlString: String) {
         guard let url = URL(string: urlString) else { return }
         lastURLUsedToLoadImage = urlString
+        
+        // If the image has been cached, no need to use network call just use it
+        if let cachedImage = imageCache[urlString] {
+            self.image = cachedImage
+            return
+        }
         
         URLSession.shared.dataTask(with: url) { (data, response, err) in
             if let err = err {
@@ -29,6 +37,8 @@ class CustomImageView: UIImageView {
             guard let imageData = data else { return }
             
             let photoImage = UIImage(data: imageData)
+            
+            imageCache[url.absoluteString] = photoImage
             
             DispatchQueue.main.async {
                 self.image = photoImage
