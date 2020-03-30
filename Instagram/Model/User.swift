@@ -10,10 +10,12 @@ import Foundation
 
 // User object that we will use to manipulate the header components
 struct User {
+    let uid: String
     let username: String
     let profileImageUrl: String
     
-    init(dict: [String: Any]) {
+    init(uid: String, dict: [String: Any]) {
+        self.uid = uid
         self.username = dict["username"] as? String ?? ""
         self.profileImageUrl = dict["profileImageUrl"] as? String ?? ""
     }
