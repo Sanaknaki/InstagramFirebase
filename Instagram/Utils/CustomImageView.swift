@@ -19,6 +19,8 @@ class CustomImageView: UIImageView {
         guard let url = URL(string: urlString) else { return }
         lastURLUsedToLoadImage = urlString
         
+        self.image = nil
+        
         // If the image has been cached, no need to use network call just use it
         if let cachedImage = imageCache[urlString] {
             self.image = cachedImage

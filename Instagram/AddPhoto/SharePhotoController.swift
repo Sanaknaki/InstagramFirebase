@@ -92,6 +92,9 @@ class SharePhotoController: UIViewController {
         }
     }
     
+    // Can be accessed now by calling it through the class, so can be called from anywhere
+    static let updateFeedNotificationName = NSNotification.Name(rawValue: "UpdateFeed")
+    
     fileprivate func saveToDatabaseWithImageUrl(imageUrl: String) {
         // Get image
         guard let postImage = selectedImage else { return }
@@ -118,8 +121,12 @@ class SharePhotoController: UIViewController {
             }
             
             print("Successfully saved post to DB!")
+            
             // Succesffully saved, dismiss view
             self.dismiss(animated: true, completion: nil)
+            
+            // Notified app with a specific name to update feed given the name, must add observer in the HomeController
+            NotificationCenter.default.post(name: SharePhotoController.updateFeedNotificationName, object: nil)
         }
     }
     
