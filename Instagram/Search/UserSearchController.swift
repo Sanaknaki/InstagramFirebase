@@ -55,8 +55,17 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
         
         // Allow to bounce it aka scroll up/down whenever
         collectionView.alwaysBounceVertical = true
+        collectionView.keyboardDismissMode = .onDrag
         
         fetchUsers()
+
+    }
+    
+    // When moving back to search view, bring back search bar
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        searchBar.isHidden = false
     }
     
     var filteredUsers = [User]()
@@ -74,6 +83,12 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
             guard let dicts = snapshot.value as? [String: Any] else { return }
             
             dicts.forEach({ (key: String, value: Any) in
+                
+                if key == Auth.auth().currentUser?.uid {
+                    print("This is me, don't need to search for myself.")
+                    return
+                }
+                
                 guard let userDict = value as? [String: Any] else { return }
                 
                 let user = User(uid: key, dict: userDict)
@@ -93,6 +108,20 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
             print("Failed to fetch users for search: ", err)
         }
         
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        searchBar.isHidden = true
+        searchBar.resignFirstResponder() // Hide keyboard when you select row
+        
+        let user = filteredUsers[indexPath.item]
+        
+        let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+        navigationController?.pushViewController(userProfileController, animated: true)
+        
+        // Pass the clicked user's UID
+        userProfileController.userId = user.uid
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
