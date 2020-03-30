@@ -28,7 +28,6 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         setupLogOutButton()
         
-        // fetchPosts()
         fetchOrderedPosts()
         
     }
@@ -46,38 +45,17 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         // Order by 'creationDate' while also watching the list of posts
         ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
             guard let dict = snapshot.value as? [String: Any] else { return }
+            guard let user = self.user else { return } // Grabbed from the var in fetchUser()
             
-            let post = Post(dictionary: dict)
-            self.posts.append(post)
+            let post = Post(user: user, dictionary: dict)
+
+            // Put newest photo ordered by creation date to the FRONT of list,
+            self.posts.insert(post, at: 0)
             
             self.collectionView.reloadData()
         }) { (err) in
             print("Failed to fetch ordered posts: ", err)
         }
-    }
-    
-    fileprivate func fetchPosts() {
-        
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        let ref = Database.database().reference().child("posts").child(uid)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let dicts = snapshot.value as? [String: Any] else { return }
-            
-            // Value would be the attributes
-            dicts.forEach({ (key: String, value: Any) in
-                guard let dict = value as? [String: Any] else { return }
-                
-                let post = Post(dictionary: dict)
-                self.posts.append(post)
-            })
-            
-            self.collectionView?.reloadData()
-            
-        }) { (err) in
-            print("Failed to fetch posts: ", err)
-        }
-        
     }
     
     @objc func handleLogOut() {
@@ -171,16 +149,5 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         }) { (err) in
             print("Failed to fetch user:", err)
         }
-    }
-}
-
-// User object that we will use to manipulate the header components
-struct User {
-    let username: String
-    let profileImageUrl: String
-    
-    init(dict: [String: Any]) {
-        self.username = dict["username"] as? String ?? ""
-        self.profileImageUrl = dict["profileImageUrl"] as? String ?? ""
     }
 }

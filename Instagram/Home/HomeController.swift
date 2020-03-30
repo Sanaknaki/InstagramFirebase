@@ -31,24 +31,32 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        let ref = Database.database().reference().child("posts").child(uid)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let dicts = snapshot.value as? [String: Any] else { return }
+        Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let userDict = snapshot.value as? [String: Any] else { return }
             
-            // Value would be the attributes
-            dicts.forEach({ (key: String, value: Any) in
-                guard let dict = value as? [String: Any] else { return }
+            let user = User(dict: userDict)
+            
+            let ref = Database.database().reference().child("posts").child(uid)
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let dicts = snapshot.value as? [String: Any] else { return }
                 
-                let post = Post(dictionary: dict)
-                self.posts.append(post)
-            })
-            
-            self.collectionView?.reloadData()
-            
+                // Value would be the attributes
+                dicts.forEach({ (key: String, value: Any) in
+                    guard let dict = value as? [String: Any] else { return }
+                    
+                    let post = Post(user: user, dictionary: dict)
+                    
+                    self.posts.append(post)
+                })
+                
+                self.collectionView?.reloadData()
+                
+            }) { (err) in
+                print("Failed to fetch posts: ", err)
+            }
         }) { (err) in
-            print("Failed to fetch posts: ", err)
+            print("Failed to fetch user for posts: ", err)
         }
-        
     }
     
     func setupNavigationItems() {
