@@ -22,7 +22,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
             
             // Layout gets fed to the photoSelectorView, which then gets fed to navController, fitting a navbar on top
             let navController = UINavigationController(rootViewController: photoSelectorController)
-            
+            navController.modalPresentationStyle = .fullScreen // Popover full screen
             present(navController, animated: true, completion: nil)
             
             return false
