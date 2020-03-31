@@ -9,10 +9,24 @@
 import UIKit
 import Firebase
 
-class UserProfileController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class UserProfileController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UserProfileHeaderDelegate {
     
     let cellId = "cellId"
+    let homePostCellId = "homePostCellId"
+    
     var userId: String?
+    
+    var isGridView = true
+    
+    func didChangeToGridView() {
+        isGridView = true
+        collectionView.reloadData()
+    }
+    
+    func didChangeToListView() {
+        isGridView = false
+        collectionView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +40,9 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         // Have to register the cellView
         collectionView.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
+        
+        // Registering the listView cell post style
+        collectionView.register(HomePostCell.self, forCellWithReuseIdentifier: homePostCellId)
         
         setupLogOutButton()
         
@@ -86,11 +103,21 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
     // Cell styling
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfilePhotoCell
         
-        cell.post = posts[indexPath.item]
-        
-        return cell
+        // If it's grid, return RegularPhotoCell, else return the HomePostCell
+        if isGridView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfilePhotoCell
+            
+            cell.post = posts[indexPath.item]
+            
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: homePostCellId, for: indexPath) as! HomePostCell
+            
+            cell.post = posts[indexPath.item]
+            
+            return cell
+        }
     }
     
     // Right/Left spacing
@@ -105,9 +132,25 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
     // Size of each cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (view.frame.width-2) / 3
         
-        return CGSize(width: width, height: width)
+        if isGridView {
+            let width = (view.frame.width-2) / 3
+            
+            return CGSize(width: width, height: width)
+        } else {
+            // Username & userProfileImageView, it's a 1:1 image aspect ratio for the image
+            var height: CGFloat = 40 + 8 + 8
+            height += view.frame.width
+            
+            // For like/comment/send button group
+            height += 50
+            
+            // For caption
+            height += 60
+            
+            return CGSize(width: view.frame.width, height: height)
+            
+        }
     }
     
     // Build the header, give it an Id to be altered
@@ -118,6 +161,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         //
         header.user = self.user
+        header.delegate = self
         
         return header
     }
