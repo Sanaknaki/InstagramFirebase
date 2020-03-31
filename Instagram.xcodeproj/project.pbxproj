@@ -24,6 +24,8 @@
 		23E18E242433CAC000B3DF9F /* CustomAnimationPresentor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E232433CAC000B3DF9F /* CustomAnimationPresentor.swift */; };
 		23E18E262433CD0B00B3DF9F /* CustomAnimationDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E252433CD0B00B3DF9F /* CustomAnimationDismisser.swift */; };
 		23E18E282433D22800B3DF9F /* CommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E272433D22800B3DF9F /* CommentsController.swift */; };
+		23E18E2A2433DFCC00B3DF9F /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E292433DFCC00B3DF9F /* CommentCell.swift */; };
+		23E18E2C2433E35D00B3DF9F /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E2B2433E35D00B3DF9F /* Comment.swift */; };
 		23E609142431336A008C57D3 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E609132431336A008C57D3 /* PhotoSelectorController.swift */; };
 		23E60916243149BA008C57D3 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E60915243149BA008C57D3 /* PhotoSelectorCell.swift */; };
 		23E6091824314EC9008C57D3 /* PhotoSelectorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E6091724314EC9008C57D3 /* PhotoSelectorHeader.swift */; };
@@ -84,6 +86,8 @@
 		23E18E232433CAC000B3DF9F /* CustomAnimationPresentor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationPresentor.swift; sourceTree = "<group>"; };
 		23E18E252433CD0B00B3DF9F /* CustomAnimationDismisser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationDismisser.swift; sourceTree = "<group>"; };
 		23E18E272433D22800B3DF9F /* CommentsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsController.swift; sourceTree = "<group>"; };
+		23E18E292433DFCC00B3DF9F /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		23E18E2B2433E35D00B3DF9F /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		23E609132431336A008C57D3 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		23E60915243149BA008C57D3 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
 		23E6091724314EC9008C57D3 /* PhotoSelectorHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorHeader.swift; sourceTree = "<group>"; };
@@ -244,6 +248,7 @@
 			children = (
 				23E6091C24316D49008C57D3 /* Post.swift */,
 				23E6092724325AA1008C57D3 /* User.swift */,
+				23E18E2B2433E35D00B3DF9F /* Comment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 				23E60923243175AC008C57D3 /* HomeController.swift */,
 				23E60925243176C4008C57D3 /* HomePostCell.swift */,
 				23E18E272433D22800B3DF9F /* CommentsController.swift */,
+				23E18E292433DFCC00B3DF9F /* CommentCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -536,6 +542,7 @@
 				23E609322432866D008C57D3 /* CameraController.swift in Sources */,
 				23E6091F24316EBC008C57D3 /* UserProfilePhotoCell.swift in Sources */,
 				23E6092824325AA1008C57D3 /* User.swift in Sources */,
+				23E18E2A2433DFCC00B3DF9F /* CommentCell.swift in Sources */,
 				237B8A17242EA152003123A0 /* Extensions.swift in Sources */,
 				23D7EF2624301F0000F6FB57 /* UserProfileHeader.swift in Sources */,
 				23E18E262433CD0B00B3DF9F /* CustomAnimationDismisser.swift in Sources */,
@@ -547,6 +554,7 @@
 				23E6091824314EC9008C57D3 /* PhotoSelectorHeader.swift in Sources */,
 				23E18E282433D22800B3DF9F /* CommentsController.swift in Sources */,
 				23E609142431336A008C57D3 /* PhotoSelectorController.swift in Sources */,
+				23E18E2C2433E35D00B3DF9F /* Comment.swift in Sources */,
 				23E60924243175AC008C57D3 /* HomeController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
