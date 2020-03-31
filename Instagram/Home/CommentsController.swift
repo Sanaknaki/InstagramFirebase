@@ -20,13 +20,17 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         
         navigationItem.title = "Comments"
         
-        collectionView.backgroundColor = .red
+        collectionView.backgroundColor = .white
         
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         collectionView.register(CommentCell.self, forCellWithReuseIdentifier: cellId)
+        
+        collectionView.alwaysBounceVertical = true
+        
+        collectionView.keyboardDismissMode = .interactive
         
         fetchComments()
     }
@@ -40,14 +44,22 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
             
             guard let dict = snapshot.value as? [String: Any] else { return }
             
-            let comment = Comment(dictionary: dict)
-            self.comments.append(comment)
+            guard let uid = dict["uid"] as? String else { return }
             
-            self.collectionView.reloadData()
+            Database.fetchUserWithUID(uid: uid) { (user) in
+                let comment = Comment(user: user, dictionary: dict)
+                self.comments.append(comment)
+                
+                self.collectionView.reloadData()
+            }
             
         }) { (err) in
             print("Failed to observe comments")
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -63,7 +75,20 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 50)
+        
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        let dummyCell = CommentCell(frame: frame)
+        
+        dummyCell.comment = comments[indexPath.item]
+        dummyCell.layoutIfNeeded()
+        
+        let targetSize = CGSize(width: view.frame.width, height: 1000)
+        let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
+        
+        // Profile image Height + paddting top + and corrected padding on bottom
+        let height = max(40 + 8 + 8, estimatedSize.height)
+        
+        return CGSize(width: view.frame.width, height: height)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,6 +119,13 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         
         commentTextField.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: submitButton.leftAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         submitButton.anchor(top: containerView.topAnchor, left: nil, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 50, height: 0)
+        
+        
+        let lineSeparatorView = UIView()
+        lineSeparatorView.backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
+        
+        containerView.addSubview(lineSeparatorView)
+        lineSeparatorView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
         
         return containerView
     }()
