@@ -23,6 +23,7 @@
 		23E18E222433B9DE00B3DF9F /* PreviewPhotoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E212433B9DE00B3DF9F /* PreviewPhotoContainerView.swift */; };
 		23E18E242433CAC000B3DF9F /* CustomAnimationPresentor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E232433CAC000B3DF9F /* CustomAnimationPresentor.swift */; };
 		23E18E262433CD0B00B3DF9F /* CustomAnimationDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E252433CD0B00B3DF9F /* CustomAnimationDismisser.swift */; };
+		23E18E282433D22800B3DF9F /* CommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E272433D22800B3DF9F /* CommentsController.swift */; };
 		23E609142431336A008C57D3 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E609132431336A008C57D3 /* PhotoSelectorController.swift */; };
 		23E60916243149BA008C57D3 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E60915243149BA008C57D3 /* PhotoSelectorCell.swift */; };
 		23E6091824314EC9008C57D3 /* PhotoSelectorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E6091724314EC9008C57D3 /* PhotoSelectorHeader.swift */; };
@@ -82,6 +83,7 @@
 		23E18E212433B9DE00B3DF9F /* PreviewPhotoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPhotoContainerView.swift; sourceTree = "<group>"; };
 		23E18E232433CAC000B3DF9F /* CustomAnimationPresentor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationPresentor.swift; sourceTree = "<group>"; };
 		23E18E252433CD0B00B3DF9F /* CustomAnimationDismisser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationDismisser.swift; sourceTree = "<group>"; };
+		23E18E272433D22800B3DF9F /* CommentsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsController.swift; sourceTree = "<group>"; };
 		23E609132431336A008C57D3 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		23E60915243149BA008C57D3 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
 		23E6091724314EC9008C57D3 /* PhotoSelectorHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorHeader.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 			children = (
 				23E60923243175AC008C57D3 /* HomeController.swift */,
 				23E60925243176C4008C57D3 /* HomePostCell.swift */,
+				23E18E272433D22800B3DF9F /* CommentsController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -542,6 +545,7 @@
 				23D7EF2924305BFF00F6FB57 /* LoginController.swift in Sources */,
 				23E60926243176C4008C57D3 /* HomePostCell.swift in Sources */,
 				23E6091824314EC9008C57D3 /* PhotoSelectorHeader.swift in Sources */,
+				23E18E282433D22800B3DF9F /* CommentsController.swift in Sources */,
 				23E609142431336A008C57D3 /* PhotoSelectorController.swift in Sources */,
 				23E60924243175AC008C57D3 /* HomeController.swift in Sources */,
 			);
