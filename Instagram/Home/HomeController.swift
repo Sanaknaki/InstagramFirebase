@@ -117,7 +117,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     @objc func handleCamera() {
         let cameraController = CameraController()
-        cameraController.modalPresentationStyle = .fullScreen // Popover full screen
+        cameraController.modalPresentationStyle = .fullScreen
         present(cameraController, animated: true, completion: nil)
     }
     

@@ -21,6 +21,8 @@
 		23D7EF2624301F0000F6FB57 /* UserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D7EF2524301F0000F6FB57 /* UserProfileHeader.swift */; };
 		23D7EF2924305BFF00F6FB57 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D7EF2824305BFF00F6FB57 /* LoginController.swift */; };
 		23E18E222433B9DE00B3DF9F /* PreviewPhotoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E212433B9DE00B3DF9F /* PreviewPhotoContainerView.swift */; };
+		23E18E242433CAC000B3DF9F /* CustomAnimationPresentor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E232433CAC000B3DF9F /* CustomAnimationPresentor.swift */; };
+		23E18E262433CD0B00B3DF9F /* CustomAnimationDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E18E252433CD0B00B3DF9F /* CustomAnimationDismisser.swift */; };
 		23E609142431336A008C57D3 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E609132431336A008C57D3 /* PhotoSelectorController.swift */; };
 		23E60916243149BA008C57D3 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E60915243149BA008C57D3 /* PhotoSelectorCell.swift */; };
 		23E6091824314EC9008C57D3 /* PhotoSelectorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E6091724314EC9008C57D3 /* PhotoSelectorHeader.swift */; };
@@ -78,6 +80,8 @@
 		23D7EF2524301F0000F6FB57 /* UserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
 		23D7EF2824305BFF00F6FB57 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		23E18E212433B9DE00B3DF9F /* PreviewPhotoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPhotoContainerView.swift; sourceTree = "<group>"; };
+		23E18E232433CAC000B3DF9F /* CustomAnimationPresentor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationPresentor.swift; sourceTree = "<group>"; };
+		23E18E252433CD0B00B3DF9F /* CustomAnimationDismisser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationDismisser.swift; sourceTree = "<group>"; };
 		23E609132431336A008C57D3 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		23E60915243149BA008C57D3 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
 		23E6091724314EC9008C57D3 /* PhotoSelectorHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorHeader.swift; sourceTree = "<group>"; };
@@ -265,6 +269,8 @@
 			children = (
 				23E609312432866D008C57D3 /* CameraController.swift */,
 				23E18E212433B9DE00B3DF9F /* PreviewPhotoContainerView.swift */,
+				23E18E232433CAC000B3DF9F /* CustomAnimationPresentor.swift */,
+				23E18E252433CD0B00B3DF9F /* CustomAnimationDismisser.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -523,11 +529,13 @@
 				23E6091D24316D49008C57D3 /* Post.swift in Sources */,
 				23E6092D2432627C008C57D3 /* UserSearchController.swift in Sources */,
 				23A1F625242BE0E3004858C3 /* SignUpController.swift in Sources */,
+				23E18E242433CAC000B3DF9F /* CustomAnimationPresentor.swift in Sources */,
 				23E609322432866D008C57D3 /* CameraController.swift in Sources */,
 				23E6091F24316EBC008C57D3 /* UserProfilePhotoCell.swift in Sources */,
 				23E6092824325AA1008C57D3 /* User.swift in Sources */,
 				237B8A17242EA152003123A0 /* Extensions.swift in Sources */,
 				23D7EF2624301F0000F6FB57 /* UserProfileHeader.swift in Sources */,
+				23E18E262433CD0B00B3DF9F /* CustomAnimationDismisser.swift in Sources */,
 				23904BB524300B84002F4D56 /* MainTabBarController.swift in Sources */,
 				23A1F623242BE0E3004858C3 /* AppDelegate.swift in Sources */,
 				23E18E222433B9DE00B3DF9F /* PreviewPhotoContainerView.swift in Sources */,
