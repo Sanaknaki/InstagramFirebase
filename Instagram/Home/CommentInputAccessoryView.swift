@@ -17,7 +17,8 @@ class CommentInputAccessoryView: UIView {
     var delegate: CommentInputAccessoryViewDelegate?
     
     func clearCommentTextField() {
-        commentTextField.text = nil
+        commentTextView.text = nil
+        commentTextView.showPlaceholderLabel()
     }
     
     fileprivate let submitButton: UIButton = {
@@ -30,23 +31,40 @@ class CommentInputAccessoryView: UIView {
         return sb
     }()
     
-    fileprivate let commentTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Comment"
+    // TextView supports multi-line instead of TextField, but View doesn't have a placeholder attribute
+    fileprivate let commentTextView: CommentInputTextView = {
+        let textView = CommentInputTextView()
         
-        return textField
+        textView.isScrollEnabled = false
+        
+        textView.font = UIFont.systemFont(ofSize: 18)
+        
+        return textView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubview(submitButton)
-        submitButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 50, height: 0)
+        backgroundColor = .white
         
-        addSubview(commentTextField)
-        commentTextField.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: submitButton.leftAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
+        autoresizingMask = .flexibleHeight
+        
+        addSubview(submitButton)
+        submitButton.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 50, height: 50)
+        
+        addSubview(commentTextView)
+        
+        if #available(iOS 11.0, *) {
+            commentTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: submitButton.leftAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 0, height: 0)
+        }
         
         setupLineSeparatorView()
+    }
+    
+    // For the container view it's going to return .zero which tells OS to resize it how you want to resize
+    // Based on the contents inside it, so for now no padding top/bottom so it's squished.
+    override var intrinsicContentSize: CGSize {
+        return .zero
     }
     
     fileprivate func setupLineSeparatorView() {
@@ -58,7 +76,7 @@ class CommentInputAccessoryView: UIView {
     }
     
     @objc func handleSubmit() {
-        guard let commentText = commentTextField.text else { return }
+        guard let commentText = commentTextView.text else { return }
         
         delegate?.didSubmit(for: commentText)
     }
