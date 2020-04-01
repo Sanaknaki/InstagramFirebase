@@ -64,24 +64,28 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         // Limit results by toFirst
         // let query = ref.queryOrderedByKey().queryStarting(atValue: "").queryLimited(toFirst: 5)
-        var query = ref.queryOrderedByKey()
+        // var query = ref.queryOrderedByKey()
+        
+        var query = ref.queryOrdered(byChild: "creationDate")
         
         // Grab last cell posted
         if posts.count > 0 {
-            let value = posts.last?.id
-            query = query.queryStarting(atValue: value)
+            let value = posts.last?.creationDate.timeIntervalSince1970
+            query = query.queryEnding(atValue: value)
         }
         
-        query.queryLimited(toFirst: 5).observeSingleEvent(of: .value, with: { (snapshot) in
+        query.queryLimited(toLast: 4).observeSingleEvent(of: .value, with: { (snapshot) in
             
             // All of the remaining objects in snapshot
             guard var allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+            
+            allObjects.reverse()
             
             if allObjects.count < 4 {
                 self.isFinishedPaging = true
             }
             
-            if self.posts.count > 0 {
+            if self.posts.count > 0 && allObjects.count > 0 {
                 allObjects.removeFirst()
             }
 
@@ -96,10 +100,6 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
                 post.id = snapshot.key // have to capture post id
                 self.posts.append(post)
             })
-            
-//            self.posts.forEach { (post) in
-//                <#code#>
-//            }
             
             self.collectionView.reloadData()
         }) { (err) in
