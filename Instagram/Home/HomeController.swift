@@ -83,6 +83,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     // We want to show posts of a User, not 'currentUser', that would be just you.
     fileprivate func fetchPostsWithUser(user: User) {
         let ref = Database.database().reference().child("posts").child(user.uid)
+        
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
             // Stop the refresh
@@ -106,6 +107,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     } else {
                         post.hasLiked = false
                     }
+                    
                     
                     self.posts.append(post)
                     
@@ -157,6 +159,11 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HomePostCell
+        
+        // This should be handled better
+        if posts.count == 0 {
+            return cell
+        }
         
         cell.post = posts[indexPath.item]
         
